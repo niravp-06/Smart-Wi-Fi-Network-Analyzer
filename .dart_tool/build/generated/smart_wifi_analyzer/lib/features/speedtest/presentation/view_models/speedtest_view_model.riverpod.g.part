@@ -1,0 +1,23 @@
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$speedtestViewModelHash() =>
+    r'7c4c04fdfbb1fc3526f59d1775bb4c045e802305';
+
+/// See also [SpeedtestViewModel].
+@ProviderFor(SpeedtestViewModel)
+final speedtestViewModelProvider =
+    AutoDisposeNotifierProvider<SpeedtestViewModel, SpeedtestState>.internal(
+      SpeedtestViewModel.new,
+      name: r'speedtestViewModelProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$speedtestViewModelHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+typedef _$SpeedtestViewModel = AutoDisposeNotifier<SpeedtestState>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

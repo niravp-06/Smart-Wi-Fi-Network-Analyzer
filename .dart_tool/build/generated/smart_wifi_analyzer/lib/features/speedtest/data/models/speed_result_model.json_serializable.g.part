@@ -1,0 +1,27 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$SpeedResultModelImpl _$$SpeedResultModelImplFromJson(
+  Map<String, dynamic> json,
+) => _$SpeedResultModelImpl(
+  downloadMbps: (json['downloadMbps'] as num).toDouble(),
+  uploadMbps: (json['uploadMbps'] as num).toDouble(),
+  pingMs: (json['pingMs'] as num).toInt(),
+  jitterMs: (json['jitterMs'] as num).toInt(),
+  packetLossPercent: (json['packetLossPercent'] as num).toDouble(),
+  testedAt: DateTime.parse(json['testedAt'] as String),
+  serverName: json['serverName'] as String?,
+);
+
+Map<String, dynamic> _$$SpeedResultModelImplToJson(
+  _$SpeedResultModelImpl instance,
+) => <String, dynamic>{
+  'downloadMbps': instance.downloadMbps,
+  'uploadMbps': instance.uploadMbps,
+  'pingMs': instance.pingMs,
+  'jitterMs': instance.jitterMs,
+  'packetLossPercent': instance.packetLossPercent,
+  'testedAt': instance.testedAt.toIso8601String(),
+  'serverName': instance.serverName,
+};

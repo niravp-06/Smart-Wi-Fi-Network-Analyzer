@@ -1,0 +1,26 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'networks_view_model.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$networksViewModelHash() => r'12ebdc3a73f9ac8e455c16c6f0b1bf3fecdcf60f';
+
+/// See also [NetworksViewModel].
+@ProviderFor(NetworksViewModel)
+final networksViewModelProvider =
+    AutoDisposeNotifierProvider<NetworksViewModel, NetworksState>.internal(
+      NetworksViewModel.new,
+      name: r'networksViewModelProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$networksViewModelHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+typedef _$NetworksViewModel = AutoDisposeNotifier<NetworksState>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
