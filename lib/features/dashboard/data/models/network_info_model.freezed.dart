@@ -15,6 +15,10 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
+NetworkInfoModel _$NetworkInfoModelFromJson(Map<String, dynamic> json) {
+  return _NetworkInfoModel.fromJson(json);
+}
+
 /// @nodoc
 mixin _$NetworkInfoModel {
   String get ssid => throw _privateConstructorUsedError;
@@ -31,6 +35,9 @@ mixin _$NetworkInfoModel {
   String? get ipVersion => throw _privateConstructorUsedError;
   String? get subnet => throw _privateConstructorUsedError;
   String? get gateway => throw _privateConstructorUsedError;
+
+  /// Serializes this NetworkInfoModel to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of NetworkInfoModel
   /// with the given fields replaced by the non-null parameter values.
@@ -278,7 +285,7 @@ class __$$NetworkInfoModelImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$NetworkInfoModelImpl extends _NetworkInfoModel {
   const _$NetworkInfoModelImpl({
     required this.ssid,
@@ -296,6 +303,9 @@ class _$NetworkInfoModelImpl extends _NetworkInfoModel {
     this.subnet,
     this.gateway,
   }) : super._();
+
+  factory _$NetworkInfoModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NetworkInfoModelImplFromJson(json);
 
   @override
   final String ssid;
@@ -357,6 +367,7 @@ class _$NetworkInfoModelImpl extends _NetworkInfoModel {
             (identical(other.gateway, gateway) || other.gateway == gateway));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
     runtimeType,
@@ -386,6 +397,11 @@ class _$NetworkInfoModelImpl extends _NetworkInfoModel {
         this,
         _$identity,
       );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$NetworkInfoModelImplToJson(this);
+  }
 }
 
 abstract class _NetworkInfoModel extends NetworkInfoModel {
@@ -406,6 +422,9 @@ abstract class _NetworkInfoModel extends NetworkInfoModel {
     final String? gateway,
   }) = _$NetworkInfoModelImpl;
   const _NetworkInfoModel._() : super._();
+
+  factory _NetworkInfoModel.fromJson(Map<String, dynamic> json) =
+      _$NetworkInfoModelImpl.fromJson;
 
   @override
   String get ssid;

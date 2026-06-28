@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../core/theme/signal_colors.dart';
 
 part 'network_info_model.freezed.dart';
+part 'network_info_model.g.dart';
 
 @freezed
 class NetworkInfoModel with _$NetworkInfoModel {
@@ -23,6 +24,8 @@ class NetworkInfoModel with _$NetworkInfoModel {
     String? subnet,
     String? gateway,
   }) = _NetworkInfoModel;
+
+  factory NetworkInfoModel.fromJson(Map<String, dynamic> json) => _$NetworkInfoModelFromJson(json);
 
   String get signalQuality => SignalColors.qualityLabel(rssi);
 }
