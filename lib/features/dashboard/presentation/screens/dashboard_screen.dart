@@ -17,6 +17,9 @@ class DashboardScreen extends ConsumerStatefulWidget {
 
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   Timer? _timer;
+  Timer? _signalTimer;
+  Timer? _networkTimer;
+  Timer? _publicIpTimer;
   late String _currentTime;
 
   @override
@@ -25,9 +28,28 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     _updateTime();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) => _updateTime());
     
+    // Full load on open (includes Public IP + ISP HTTP call)
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(dashboardViewModelProvider.notifier).load();
     });
+
+    // TIMER 1: Refresh RSSI + SSID every 1 seconds (live feel)
+    _signalTimer = Timer.periodic(
+      const Duration(seconds: 1),
+      (_) => ref.read(dashboardViewModelProvider.notifier).refreshSignal(),
+    );
+
+    // TIMER 2: Refresh local network info every 20 seconds
+    _networkTimer = Timer.periodic(
+      const Duration(seconds: 20),
+      (_) => ref.read(dashboardViewModelProvider.notifier).refreshNetworkInfo(),
+    );
+
+    // TIMER 3: Refresh Public IP + ISP every 60 seconds
+    _publicIpTimer = Timer.periodic(
+      const Duration(seconds: 60),
+      (_) => ref.read(dashboardViewModelProvider.notifier).refreshPublicIp(),
+    );
   }
 
   void _updateTime() {
@@ -40,6 +62,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   void dispose() {
     _timer?.cancel();
+    _signalTimer?.cancel();
+    _networkTimer?.cancel();
+    _publicIpTimer?.cancel();
     super.dispose();
   }
 
@@ -116,6 +141,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           icon: const Icon(Icons.refresh, color: AppTheme.primary),
           onPressed: () {
             ref.read(dashboardViewModelProvider.notifier).load();
+            // Manual tap = full reload including Public IP + ISP
           },
         ),
       ],
@@ -234,6 +260,16 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     );
   }
 
+  String _bandFromFrequency(String freqStr) {
+    if (freqStr == '—' || freqStr.isEmpty) return '—';
+    final mhz = int.tryParse(freqStr.replaceAll(RegExp(r'[^0-9]'), ''));
+    if (mhz == null) return freqStr;
+    if (mhz >= 5945) return '6 GHz';
+    if (mhz >= 5000) return '5 GHz';
+    if (mhz >= 2400) return '2.4 GHz';
+    return freqStr;
+  }
+
   Widget _buildDetailsGrid(dynamic networkInfo) {
     String ispShort = networkInfo.ispName;
     if (ispShort.length > 15) {
@@ -246,12 +282,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       crossAxisSpacing: 16,
       mainAxisSpacing: 16,
       children: [
-        DetailCard(icon: Icons.wifi, label: 'Local IP', value: networkInfo.localIp),
         DetailCard(icon: Icons.public, label: 'Public IP', value: networkInfo.publicIp),
-        DetailCard(icon: Icons.cell_tower, label: 'ISP', value: ispShort),
         DetailCard(icon: Icons.router, label: 'Gateway', value: networkInfo.gateway ?? "—"),
+        DetailCard(icon: Icons.cell_tower, label: 'ISP', value: ispShort),
+        DetailCard(icon: Icons.speed, label: 'Band', value: _bandFromFrequency(networkInfo.frequency)),
         DetailCard(icon: Icons.dns, label: 'IP Version', value: networkInfo.ipVersion ?? "IPv4"),
-        DetailCard(icon: Icons.speed, label: 'Frequency', value: networkInfo.frequency),
       ],
     );
   }

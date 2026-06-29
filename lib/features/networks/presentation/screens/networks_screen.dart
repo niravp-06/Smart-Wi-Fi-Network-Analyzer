@@ -195,8 +195,8 @@ class RadarPainter extends CustomPainter {
     final sweepPaint = Paint()
       ..shader = SweepGradient(
         colors: [
-          AppTheme.primary.withOpacity(0.0),
-          AppTheme.primary.withOpacity(0.5),
+          AppTheme.primary.withValues(alpha: 0.0),
+          AppTheme.primary.withValues(alpha: 0.5),
         ],
         stops: const [0.5, 1.0],
         transform: GradientRotation(sweepAngle),
