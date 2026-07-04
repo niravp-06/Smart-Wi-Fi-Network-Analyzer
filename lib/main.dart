@@ -9,6 +9,8 @@ import 'features/settings/presentation/screens/settings_screen.dart';
 import 'features/signal/presentation/screens/signal_screen.dart';
 import 'features/speedtest/presentation/screens/speedtest_screen.dart';
 
+import 'features/splash/presentation/screens/splash_screen.dart';
+
 void main() {
   runApp(
     const ProviderScope(
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'Wi-Fi Analyzer',
       theme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      home: const MainShell(),
+      home: const SplashScreen(),
     );
   }
 }
