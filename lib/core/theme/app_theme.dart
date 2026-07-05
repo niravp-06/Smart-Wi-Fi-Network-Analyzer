@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // DARK COLOR PALETTE
-  static const Color darkBackground = Color(0xFF080C18);
-  static const Color darkSurface = Color(0xFF0F1525);
-  static const Color darkSurfaceVariant = Color(0xFF161D33);
-  static const Color darkPrimary = Color(0xFF00E5FF);
-  static const Color darkSecondary = Color(0xFF00FF88);
-  static const Color darkTertiary = Color(0xFFFFD600);
-  static const Color darkTextPrimary = Color(0xFFE8EEFF);
-  static const Color darkTextSecondary = Color(0xFF8892B0);
-  static const Color darkBorder = Color(0xFF1E2A45);
+  // DARK COLOR PALETTE (Premium OLED Black)
+  static const Color darkBackground = Color(0xFF000000);
+  static const Color darkSurface = Color(0xFF121212);
+  static const Color darkSurfaceVariant = Color(0xFF1C1C1E);
+  static const Color darkPrimary = Color(0xFF0A84FF); // Vibrant Electric Blue
+  static const Color darkSecondary = Color(0xFF30D158); // Crisp Green
+  static const Color darkTertiary = Color(0xFFFF9F0A); // Refined Amber
+  static const Color darkTextPrimary = Color(0xFFFFFFFF);
+  static const Color darkTextSecondary = Color(0xFFA1A1A6); // Subdued Apple-like Grey
+  static const Color darkBorder = Color(0xFF38383A);
 
-  // LIGHT COLOR PALETTE
-  static const Color lightBackground = Color(0xFFF3F4F6);
+  // LIGHT COLOR PALETTE (Refined Light)
+  static const Color lightBackground = Color(0xFFF2F2F7); // Soft off-white
   static const Color lightSurface = Color(0xFFFFFFFF);
-  static const Color lightSurfaceVariant = Color(0xFFE5E7EB);
-  static const Color lightPrimary = Color(0xFF00838F); // Slightly darker cyan for contrast
-  static const Color lightSecondary = Color(0xFF00BFA5);
-  static const Color lightTertiary = Color(0xFFF57F17); // Darker yellow/orange for contrast
-  static const Color lightTextPrimary = Color(0xFF111827);
-  static const Color lightTextSecondary = Color(0xFF4B5563);
-  static const Color lightBorder = Color(0xFFD1D5DB);
+  static const Color lightSurfaceVariant = Color(0xFFE5E5EA);
+  static const Color lightPrimary = Color(0xFF007AFF); // Classic Blue
+  static const Color lightSecondary = Color(0xFF34C759);
+  static const Color lightTertiary = Color(0xFFFF9500);
+  static const Color lightTextPrimary = Color(0xFF000000);
+  static const Color lightTextSecondary = Color(0xFF8E8E93);
+  static const Color lightBorder = Color(0xFFD1D1D6);
 
   static ThemeData get darkTheme {
     return ThemeData(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -127,13 +128,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Wi-Fi Analyzer',
+              'Smart Wi-Fi Network Analyzer',
               style: GoogleFonts.rajdhani(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.bold,
-                fontSize: 22,
+                fontSize: 20,
               ),
             ),
+            const SizedBox(height: 6),
             Text(
               _currentTime,
               style: GoogleFonts.inter(
@@ -157,15 +159,27 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   Widget _buildHeroCard(ThemeData theme, dynamic networkInfo) {
     final signalColor = SignalColors.fromRssi(networkInfo.rssi);
     
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: theme.colorScheme.primary.withValues(alpha: 0.3), width: 1),
-      ),
-      padding: const EdgeInsets.all(20),
-      child: Column(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(24),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primary.withAlpha(20),
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: theme.colorScheme.primary.withAlpha(50), width: 1.5),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                theme.colorScheme.primary.withAlpha(40),
+                theme.colorScheme.primary.withAlpha(10),
+              ],
+            ),
+          ),
+          padding: const EdgeInsets.all(24),
+          child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -245,22 +259,31 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           ),
         ],
       ),
+    ),
+      ),
     );
   }
 
   Widget _buildChip(ThemeData theme, String label) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: theme.colorScheme.outline),
-      ),
-      child: Text(
-        label,
-        style: GoogleFonts.inter(
-          color: theme.colorScheme.onSurface,
-          fontSize: 10,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.onSurface.withAlpha(15),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: theme.colorScheme.onSurface.withAlpha(30)),
+          ),
+          child: Text(
+            label,
+            style: GoogleFonts.inter(
+              color: theme.colorScheme.onSurface,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
       ),
     );
