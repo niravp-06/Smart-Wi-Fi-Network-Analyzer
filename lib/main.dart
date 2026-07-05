@@ -10,6 +10,7 @@ import 'features/networks/presentation/screens/networks_screen.dart';
 import 'features/settings/presentation/screens/settings_screen.dart';
 import 'features/signal/presentation/screens/signal_screen.dart';
 import 'features/speedtest/presentation/screens/speedtest_screen.dart';
+import 'core/widgets/fade_indexed_stack.dart';
 
 void main() {
   runApp(
@@ -60,7 +61,7 @@ class _MainShellState extends State<MainShell> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      body: IndexedStack(
+      body: FadeIndexedStack(
         index: _currentIndex,
         children: _pages,
       ),

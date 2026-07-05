@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../view_models/networks_view_model.dart';
 import '../widgets/permission_widget.dart';
 import '../widgets/access_point_tile.dart';
@@ -167,7 +168,10 @@ class _NetworksScreenState extends ConsumerState<NetworksScreen> with SingleTick
       itemCount: state.networks.length,
       itemBuilder: (context, index) {
         final network = state.networks[index];
-        return AccessPointNetworkTile(network: network);
+        return AccessPointNetworkTile(network: network)
+            .animate(delay: (index * 50).ms)
+            .fadeIn(duration: 300.ms)
+            .slideX(begin: 0.1, end: 0, duration: 300.ms, curve: Curves.easeOutQuad);
       },
     );
   }

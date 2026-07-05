@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../view_models/speedtest_view_model.dart';
 import '../widgets/metric_card.dart';
 import '../widgets/speedometer_painter.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class SpeedtestScreen extends ConsumerStatefulWidget {
   const SpeedtestScreen({super.key});
@@ -59,15 +60,16 @@ class _SpeedtestScreenState extends ConsumerState<SpeedtestScreen> with SingleTi
                 child: Center(
                   child: _buildSpeedometer(theme, state, viewModel),
                 ),
-              ),
+              ).animate().scale(duration: 400.ms, curve: Curves.easeOutBack).fadeIn(duration: 400.ms),
               const SizedBox(height: 24),
-              if (state.phase != SpeedTestPhase.idle) _buildStatsRow(state),
+              if (state.phase != SpeedTestPhase.idle) 
+                _buildStatsRow(state).animate().slideY(begin: 0.2, end: 0, duration: 400.ms, curve: Curves.easeOutQuad).fadeIn(duration: 400.ms),
               const SizedBox(height: 24),
               if (state.phase == SpeedTestPhase.testingDownload ||
                   state.phase == SpeedTestPhase.testingUpload)
                 _buildProgressIndicators(state),
               const SizedBox(height: 32),
-              _buildActionBtn(state, viewModel),
+              _buildActionBtn(state, viewModel).animate(delay: 200.ms).fadeIn(duration: 400.ms).slideY(begin: 0.2, end: 0, duration: 400.ms, curve: Curves.easeOutQuad),
             ],
           ),
         ),

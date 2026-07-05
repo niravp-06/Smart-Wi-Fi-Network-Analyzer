@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../../core/theme/signal_colors.dart';
 import '../view_models/dashboard_view_model.dart';
 import '../widgets/detail_card.dart';
-
+import 'package:flutter_animate/flutter_animate.dart';
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
 
@@ -95,11 +95,17 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   child: Center(child: CircularProgressIndicator(color: theme.colorScheme.primary)),
                 )
               else if (state.networkInfo != null) ...[
-                _buildHeroCard(theme, state.networkInfo),
+                _buildHeroCard(theme, state.networkInfo)
+                    .animate()
+                    .fadeIn(duration: 400.ms)
+                    .slideY(begin: 0.1, end: 0, duration: 400.ms, curve: Curves.easeOutQuad),
                 const SizedBox(height: 24),
                 Expanded(child: _buildDetailsGrid(theme, state.networkInfo)),
                 const SizedBox(height: 16),
-                _buildIspCard(theme, state.networkInfo),
+                _buildIspCard(theme, state.networkInfo)
+                    .animate()
+                    .fadeIn(duration: 400.ms, delay: 200.ms)
+                    .slideY(begin: 0.1, end: 0, duration: 400.ms, curve: Curves.easeOutQuad),
               ] else
                 Expanded(
                   child: Center(
@@ -287,7 +293,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         DetailCard(icon: Icons.cell_tower, label: 'ISP', value: ispShort),
         DetailCard(icon: Icons.speed, label: 'Band', value: _bandFromFrequency(networkInfo.frequency)),
         DetailCard(icon: Icons.dns, label: 'IP Version', value: networkInfo.ipVersion ?? "IPv4"),
-      ],
+      ].animate(interval: 50.ms).fadeIn(duration: 300.ms).scale(begin: const Offset(0.9, 0.9), duration: 300.ms, curve: Curves.easeOutBack),
     );
   }
 

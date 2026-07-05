@@ -66,7 +66,7 @@ class DashboardViewModel extends _$DashboardViewModel {
       final ssid      = results[0] ?? 'Not Connected';
       final bssid     = results[1] ?? '—';
       final localIp   = results[2] ?? '—';
-      final rawGateway = results[3] as String?;
+      final rawGateway = results[3];
       final localIpVal = results[2] ?? '—';
       // Derive gateway from local IP: replace last octet with .1
       // e.g. 192.168.1.11 → 192.168.1.1

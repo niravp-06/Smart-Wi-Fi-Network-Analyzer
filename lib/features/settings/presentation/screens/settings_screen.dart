@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import '../../../../core/theme/theme_provider.dart';
 import '../../../dashboard/presentation/view_models/dashboard_view_model.dart';
 import '../../../speedtest/data/models/speed_result_model.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -118,7 +119,7 @@ class SettingsScreen extends ConsumerWidget {
             subtitle: Text('GTU BE IT Student', style: TextStyle(color: theme.colorScheme.onSurfaceVariant)),
             contentPadding: EdgeInsets.zero,
           ),
-        ],
+        ].animate(interval: 50.ms).fadeIn(duration: 400.ms).slideY(begin: 0.1, end: 0, duration: 400.ms, curve: Curves.easeOutQuad),
       ),
     );
   }
@@ -292,7 +293,7 @@ class AdvancedNetworkScreen extends ConsumerWidget {
                 _buildRow(context, 'Band', info.band),
                 _buildRow(context, 'Security', info.securityType),
                 _buildRow(context, 'Wi-Fi Version', info.wifiVersion),
-                const SizedBox(height: 24),
+                const SizedBox(height: 32),
                 
                 _buildSectionHeader(theme, 'IP & NETWORK'),
                 _buildRow(context, 'Local IP', info.localIp),
