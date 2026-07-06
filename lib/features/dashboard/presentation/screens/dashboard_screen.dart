@@ -5,8 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/theme/signal_colors.dart';
+
 import '../view_models/dashboard_view_model.dart';
 import '../widgets/detail_card.dart';
+import '../widgets/isp_logo_widget.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -313,7 +315,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       children: [
         DetailCard(icon: Icons.public, label: 'Public IP', value: networkInfo.publicIp),
         DetailCard(icon: Icons.router, label: 'Gateway', value: networkInfo.gateway ?? "—"),
-        DetailCard(icon: Icons.cell_tower, label: 'ISP', value: ispShort),
+        DetailCard(
+          icon: Icons.cell_tower,
+          label: 'ISP',
+          value: ispShort,
+          trailingWidget: IspLogoWidget(domain: networkInfo.ispDomain, size: 20),
+        ),
         DetailCard(icon: Icons.speed, label: 'Band', value: _bandFromFrequency(networkInfo.frequency)),
         DetailCard(icon: Icons.dns, label: 'IP Version', value: networkInfo.ipVersion ?? "IPv4"),
       ].animate(interval: 50.ms).fadeIn(duration: 300.ms).scale(begin: const Offset(0.9, 0.9), duration: 300.ms, curve: Curves.easeOutBack),
@@ -329,7 +336,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          Icon(Icons.business, color: theme.colorScheme.primary, size: 32),
+          IspLogoWidget(
+            domain: networkInfo.ispDomain,
+            size: 32,
+            fallbackWidget: Icon(Icons.business, color: theme.colorScheme.primary, size: 32),
+          ),
           const SizedBox(width: 16),
           Expanded(
             child: Column(

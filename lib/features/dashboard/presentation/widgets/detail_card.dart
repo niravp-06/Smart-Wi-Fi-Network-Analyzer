@@ -5,12 +5,14 @@ class DetailCard extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
+  final Widget? trailingWidget;
 
   const DetailCard({
     super.key,
     required this.icon,
     required this.label,
     required this.value,
+    this.trailingWidget,
   });
 
   @override
@@ -41,6 +43,10 @@ class DetailCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+              if (trailingWidget != null) ...[
+                const SizedBox(width: 4),
+                trailingWidget!,
+              ],
             ],
           ),
           const SizedBox(height: 8),

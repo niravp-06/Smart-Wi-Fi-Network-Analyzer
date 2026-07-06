@@ -125,6 +125,7 @@ class DashboardViewModel extends _$DashboardViewModel {
         rssi:        rssi,
         ispName:     ispName,
         ispOrg:      org,
+        ispDomain:   ipInfo['ispDomain'],
         ipVersion:   ipVersion,
         subnet:      subnet,
         gateway:     gateway,
@@ -257,6 +258,7 @@ class DashboardViewModel extends _$DashboardViewModel {
             publicIp: publicIp,
             ispName: ispName,
             ispOrg: org,
+            ispDomain: ipInfo['ispDomain'],
             ipVersion: ipVersion,
           ),
         );

@@ -20,6 +20,7 @@ class NetworkInfoModel with _$NetworkInfoModel {
     required int rssi,
     required String ispName,
     required String ispOrg,
+    String? ispDomain,
     String? ipVersion,
     String? subnet,
     String? gateway,

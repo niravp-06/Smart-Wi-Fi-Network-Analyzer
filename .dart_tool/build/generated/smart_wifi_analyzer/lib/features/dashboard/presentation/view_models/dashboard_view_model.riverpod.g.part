@@ -3,7 +3,7 @@
 // **************************************************************************
 
 String _$dashboardViewModelHash() =>
-    r'9b0f2eb8a6905b8f1dd5ae5b33fb822ce30b6bad';
+    r'6a53b513552dd5d6f0e515724392e056bd036eec';
 
 /// See also [DashboardViewModel].
 @ProviderFor(DashboardViewModel)

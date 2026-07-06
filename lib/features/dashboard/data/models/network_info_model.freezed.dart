@@ -32,6 +32,7 @@ mixin _$NetworkInfoModel {
   int get rssi => throw _privateConstructorUsedError;
   String get ispName => throw _privateConstructorUsedError;
   String get ispOrg => throw _privateConstructorUsedError;
+  String? get ispDomain => throw _privateConstructorUsedError;
   String? get ipVersion => throw _privateConstructorUsedError;
   String? get subnet => throw _privateConstructorUsedError;
   String? get gateway => throw _privateConstructorUsedError;
@@ -65,6 +66,7 @@ abstract class $NetworkInfoModelCopyWith<$Res> {
     int rssi,
     String ispName,
     String ispOrg,
+    String? ispDomain,
     String? ipVersion,
     String? subnet,
     String? gateway,
@@ -97,6 +99,7 @@ class _$NetworkInfoModelCopyWithImpl<$Res, $Val extends NetworkInfoModel>
     Object? rssi = null,
     Object? ispName = null,
     Object? ispOrg = null,
+    Object? ispDomain = freezed,
     Object? ipVersion = freezed,
     Object? subnet = freezed,
     Object? gateway = freezed,
@@ -147,6 +150,10 @@ class _$NetworkInfoModelCopyWithImpl<$Res, $Val extends NetworkInfoModel>
                 ? _value.ispOrg
                 : ispOrg // ignore: cast_nullable_to_non_nullable
                       as String,
+            ispDomain: freezed == ispDomain
+                ? _value.ispDomain
+                : ispDomain // ignore: cast_nullable_to_non_nullable
+                      as String?,
             ipVersion: freezed == ipVersion
                 ? _value.ipVersion
                 : ipVersion // ignore: cast_nullable_to_non_nullable
@@ -186,6 +193,7 @@ abstract class _$$NetworkInfoModelImplCopyWith<$Res>
     int rssi,
     String ispName,
     String ispOrg,
+    String? ispDomain,
     String? ipVersion,
     String? subnet,
     String? gateway,
@@ -217,6 +225,7 @@ class __$$NetworkInfoModelImplCopyWithImpl<$Res>
     Object? rssi = null,
     Object? ispName = null,
     Object? ispOrg = null,
+    Object? ispDomain = freezed,
     Object? ipVersion = freezed,
     Object? subnet = freezed,
     Object? gateway = freezed,
@@ -267,6 +276,10 @@ class __$$NetworkInfoModelImplCopyWithImpl<$Res>
             ? _value.ispOrg
             : ispOrg // ignore: cast_nullable_to_non_nullable
                   as String,
+        ispDomain: freezed == ispDomain
+            ? _value.ispDomain
+            : ispDomain // ignore: cast_nullable_to_non_nullable
+                  as String?,
         ipVersion: freezed == ipVersion
             ? _value.ipVersion
             : ipVersion // ignore: cast_nullable_to_non_nullable
@@ -299,6 +312,7 @@ class _$NetworkInfoModelImpl extends _NetworkInfoModel {
     required this.rssi,
     required this.ispName,
     required this.ispOrg,
+    this.ispDomain,
     this.ipVersion,
     this.subnet,
     this.gateway,
@@ -330,6 +344,8 @@ class _$NetworkInfoModelImpl extends _NetworkInfoModel {
   @override
   final String ispOrg;
   @override
+  final String? ispDomain;
+  @override
   final String? ipVersion;
   @override
   final String? subnet;
@@ -338,7 +354,7 @@ class _$NetworkInfoModelImpl extends _NetworkInfoModel {
 
   @override
   String toString() {
-    return 'NetworkInfoModel(ssid: $ssid, bssid: $bssid, localIp: $localIp, publicIp: $publicIp, frequency: $frequency, band: $band, securityType: $securityType, wifiVersion: $wifiVersion, rssi: $rssi, ispName: $ispName, ispOrg: $ispOrg, ipVersion: $ipVersion, subnet: $subnet, gateway: $gateway)';
+    return 'NetworkInfoModel(ssid: $ssid, bssid: $bssid, localIp: $localIp, publicIp: $publicIp, frequency: $frequency, band: $band, securityType: $securityType, wifiVersion: $wifiVersion, rssi: $rssi, ispName: $ispName, ispOrg: $ispOrg, ispDomain: $ispDomain, ipVersion: $ipVersion, subnet: $subnet, gateway: $gateway)';
   }
 
   @override
@@ -361,6 +377,8 @@ class _$NetworkInfoModelImpl extends _NetworkInfoModel {
             (identical(other.rssi, rssi) || other.rssi == rssi) &&
             (identical(other.ispName, ispName) || other.ispName == ispName) &&
             (identical(other.ispOrg, ispOrg) || other.ispOrg == ispOrg) &&
+            (identical(other.ispDomain, ispDomain) ||
+                other.ispDomain == ispDomain) &&
             (identical(other.ipVersion, ipVersion) ||
                 other.ipVersion == ipVersion) &&
             (identical(other.subnet, subnet) || other.subnet == subnet) &&
@@ -382,6 +400,7 @@ class _$NetworkInfoModelImpl extends _NetworkInfoModel {
     rssi,
     ispName,
     ispOrg,
+    ispDomain,
     ipVersion,
     subnet,
     gateway,
@@ -417,6 +436,7 @@ abstract class _NetworkInfoModel extends NetworkInfoModel {
     required final int rssi,
     required final String ispName,
     required final String ispOrg,
+    final String? ispDomain,
     final String? ipVersion,
     final String? subnet,
     final String? gateway,
@@ -448,6 +468,8 @@ abstract class _NetworkInfoModel extends NetworkInfoModel {
   String get ispName;
   @override
   String get ispOrg;
+  @override
+  String? get ispDomain;
   @override
   String? get ipVersion;
   @override
