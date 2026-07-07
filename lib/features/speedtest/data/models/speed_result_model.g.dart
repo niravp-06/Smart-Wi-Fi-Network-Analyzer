@@ -16,6 +16,9 @@ _$SpeedResultModelImpl _$$SpeedResultModelImplFromJson(
   packetLossPercent: (json['packetLossPercent'] as num).toDouble(),
   testedAt: DateTime.parse(json['testedAt'] as String),
   serverName: json['serverName'] as String?,
+  networkInfo: json['networkInfo'] == null
+      ? null
+      : NetworkInfoModel.fromJson(json['networkInfo'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$$SpeedResultModelImplToJson(
@@ -28,4 +31,5 @@ Map<String, dynamic> _$$SpeedResultModelImplToJson(
   'packetLossPercent': instance.packetLossPercent,
   'testedAt': instance.testedAt.toIso8601String(),
   'serverName': instance.serverName,
+  'networkInfo': instance.networkInfo,
 };

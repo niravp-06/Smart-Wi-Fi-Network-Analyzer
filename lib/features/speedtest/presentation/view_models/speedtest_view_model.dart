@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_internet_speed_test_pro/flutter_internet_speed_test_pro.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/models/speed_result_model.dart';
+import '../../../../features/dashboard/presentation/view_models/dashboard_view_model.dart';
 
 part 'speedtest_view_model.freezed.dart';
 part 'speedtest_view_model.g.dart';
@@ -109,6 +110,7 @@ class SpeedtestViewModel extends _$SpeedtestViewModel {
           packetLossPercent: 0.0,
           testedAt: DateTime.now(),
           serverName: 'Default Server',
+          networkInfo: ref.read(dashboardViewModelProvider).networkInfo,
         );
         
         state = state.copyWith(

@@ -3,7 +3,7 @@
 // **************************************************************************
 
 String _$speedtestViewModelHash() =>
-    r'7c4c04fdfbb1fc3526f59d1775bb4c045e802305';
+    r'd698ca27b4f25c2e68c91b59ebd6aa643160ab9c';
 
 /// See also [SpeedtestViewModel].
 @ProviderFor(SpeedtestViewModel)

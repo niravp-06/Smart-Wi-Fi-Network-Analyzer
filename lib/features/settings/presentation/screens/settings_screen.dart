@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/theme/theme_provider.dart';
 import '../../../dashboard/presentation/view_models/dashboard_view_model.dart';
+import '../../../dashboard/data/models/network_info_model.dart';
 import '../../../speedtest/data/models/speed_result_model.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -178,6 +179,20 @@ class _SpeedTestHistoryScreenState extends State<SpeedTestHistoryScreen> {
     }
   }
 
+  Future<void> _deleteResult(int index) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      setState(() {
+        _history.removeAt(index);
+      });
+      final historyList = _history.map((e) => jsonEncode(e.toJson())).toList();
+      await prefs.setStringList('speed_test_history', historyList);
+    } catch (_) {
+      // Ignore delete errors
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -207,23 +222,57 @@ class _SpeedTestHistoryScreenState extends State<SpeedTestHistoryScreen> {
                   itemBuilder: (context, index) {
                     final item = _history[index];
                     final dateStr = DateFormat('dd MMM yyyy, HH:mm').format(item.testedAt);
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          dateStr,
-                          style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 12),
+                    return Dismissible(
+                      key: Key(item.testedAt.toIso8601String()),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.only(right: 20.0),
+                        color: Colors.red.shade800,
+                        child: const Icon(Icons.delete, color: Colors.white),
+                      ),
+                      onDismissed: (direction) {
+                        _deleteResult(index);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('Test result deleted'),
+                            backgroundColor: theme.colorScheme.surface,
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      },
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => SpeedTestDetailsScreen(result: item),
+                            ),
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                dateStr,
+                                style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 12),
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  _buildStat(context, '↓', item.downloadMbps, const Color(0xFF00E5FF)),
+                                  _buildStat(context, '↑', item.uploadMbps, const Color(0xFF00FF88)),
+                                  _buildStat(context, 'Ping', item.pingMs.toDouble(), const Color(0xFFFFD600), isPing: true),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            _buildStat(context, '↓', item.downloadMbps, const Color(0xFF00E5FF)),
-                            _buildStat(context, '↑', item.uploadMbps, const Color(0xFF00FF88)),
-                            _buildStat(context, 'Ping', item.pingMs.toDouble(), const Color(0xFFFFD600), isPing: true),
-                          ],
-                        ),
-                      ],
+                      ),
                     );
                   },
                 ),
@@ -308,6 +357,127 @@ class AdvancedNetworkScreen extends ConsumerWidget {
                 _buildRow(context, 'ISP Organization', info.ispOrg),
               ],
             ),
+    );
+  }
+
+  Widget _buildSectionHeader(ThemeData theme, String title) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.rajdhani(
+            color: theme.colorScheme.primary,
+            fontSize: 13,
+            letterSpacing: 1.5,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Divider(color: theme.colorScheme.outline, thickness: 1),
+        const SizedBox(height: 8),
+      ],
+    );
+  }
+
+  Widget _buildRow(BuildContext context, String label, String value) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 2,
+            child: Text(
+              label,
+              style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 14),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Text(
+              value,
+              style: GoogleFonts.rajdhani(
+                color: theme.colorScheme.onSurface,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.right,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SpeedTestDetailsScreen extends StatelessWidget {
+  final SpeedResultModel result;
+
+  const SpeedTestDetailsScreen({super.key, required this.result});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final dateStr = DateFormat('dd MMM yyyy, HH:mm').format(result.testedAt);
+    final info = result.networkInfo;
+
+    return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: AppBar(
+        title: Text(
+          'Speed Test Details',
+          style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [
+          _buildSectionHeader(theme, 'TEST RESULTS'),
+          _buildRow(context, 'Date', dateStr),
+          _buildRow(context, 'Download Speed', '${result.downloadMbps.toStringAsFixed(2)} Mbps'),
+          _buildRow(context, 'Upload Speed', '${result.uploadMbps.toStringAsFixed(2)} Mbps'),
+          _buildRow(context, 'Ping', '${result.pingMs} ms'),
+          _buildRow(context, 'Jitter', '${result.jitterMs} ms'),
+          _buildRow(context, 'Packet Loss', '${result.packetLossPercent.toStringAsFixed(1)}%'),
+          const SizedBox(height: 32),
+          
+          if (info != null) ...[
+            _buildSectionHeader(theme, 'NETWORK DETAILS'),
+            _buildRow(context, 'SSID', info.ssid),
+            _buildRow(context, 'BSSID', info.bssid),
+            _buildRow(context, 'Frequency', info.frequency),
+            _buildRow(context, 'Band', info.band),
+            _buildRow(context, 'Security', info.securityType),
+            _buildRow(context, 'Wi-Fi Version', info.wifiVersion),
+            const SizedBox(height: 32),
+            
+            _buildSectionHeader(theme, 'IP & GATEWAY'),
+            _buildRow(context, 'Local IP', info.localIp),
+            _buildRow(context, 'Public IP', info.publicIp),
+            _buildRow(context, 'Subnet Mask', info.subnet ?? 'Unknown'),
+            _buildRow(context, 'Gateway', info.gateway ?? 'Unknown'),
+            _buildRow(context, 'IP Version', info.ipVersion ?? 'Unknown'),
+            const SizedBox(height: 32),
+
+            _buildSectionHeader(theme, 'ISP INFO'),
+            _buildRow(context, 'ISP Name', info.ispName),
+            _buildRow(context, 'ISP Organization', info.ispOrg),
+          ] else
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'No network details saved for this test.',
+                  style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 

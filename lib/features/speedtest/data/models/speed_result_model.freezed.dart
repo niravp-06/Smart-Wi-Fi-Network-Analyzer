@@ -28,6 +28,7 @@ mixin _$SpeedResultModel {
   double get packetLossPercent => throw _privateConstructorUsedError;
   DateTime get testedAt => throw _privateConstructorUsedError;
   String? get serverName => throw _privateConstructorUsedError;
+  NetworkInfoModel? get networkInfo => throw _privateConstructorUsedError;
 
   /// Serializes this SpeedResultModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -54,7 +55,10 @@ abstract class $SpeedResultModelCopyWith<$Res> {
     double packetLossPercent,
     DateTime testedAt,
     String? serverName,
+    NetworkInfoModel? networkInfo,
   });
+
+  $NetworkInfoModelCopyWith<$Res>? get networkInfo;
 }
 
 /// @nodoc
@@ -79,6 +83,7 @@ class _$SpeedResultModelCopyWithImpl<$Res, $Val extends SpeedResultModel>
     Object? packetLossPercent = null,
     Object? testedAt = null,
     Object? serverName = freezed,
+    Object? networkInfo = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -110,9 +115,27 @@ class _$SpeedResultModelCopyWithImpl<$Res, $Val extends SpeedResultModel>
                 ? _value.serverName
                 : serverName // ignore: cast_nullable_to_non_nullable
                       as String?,
+            networkInfo: freezed == networkInfo
+                ? _value.networkInfo
+                : networkInfo // ignore: cast_nullable_to_non_nullable
+                      as NetworkInfoModel?,
           )
           as $Val,
     );
+  }
+
+  /// Create a copy of SpeedResultModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NetworkInfoModelCopyWith<$Res>? get networkInfo {
+    if (_value.networkInfo == null) {
+      return null;
+    }
+
+    return $NetworkInfoModelCopyWith<$Res>(_value.networkInfo!, (value) {
+      return _then(_value.copyWith(networkInfo: value) as $Val);
+    });
   }
 }
 
@@ -133,7 +156,11 @@ abstract class _$$SpeedResultModelImplCopyWith<$Res>
     double packetLossPercent,
     DateTime testedAt,
     String? serverName,
+    NetworkInfoModel? networkInfo,
   });
+
+  @override
+  $NetworkInfoModelCopyWith<$Res>? get networkInfo;
 }
 
 /// @nodoc
@@ -157,6 +184,7 @@ class __$$SpeedResultModelImplCopyWithImpl<$Res>
     Object? packetLossPercent = null,
     Object? testedAt = null,
     Object? serverName = freezed,
+    Object? networkInfo = freezed,
   }) {
     return _then(
       _$SpeedResultModelImpl(
@@ -188,6 +216,10 @@ class __$$SpeedResultModelImplCopyWithImpl<$Res>
             ? _value.serverName
             : serverName // ignore: cast_nullable_to_non_nullable
                   as String?,
+        networkInfo: freezed == networkInfo
+            ? _value.networkInfo
+            : networkInfo // ignore: cast_nullable_to_non_nullable
+                  as NetworkInfoModel?,
       ),
     );
   }
@@ -204,6 +236,7 @@ class _$SpeedResultModelImpl implements _SpeedResultModel {
     required this.packetLossPercent,
     required this.testedAt,
     this.serverName,
+    this.networkInfo,
   });
 
   factory _$SpeedResultModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -223,10 +256,12 @@ class _$SpeedResultModelImpl implements _SpeedResultModel {
   final DateTime testedAt;
   @override
   final String? serverName;
+  @override
+  final NetworkInfoModel? networkInfo;
 
   @override
   String toString() {
-    return 'SpeedResultModel(downloadMbps: $downloadMbps, uploadMbps: $uploadMbps, pingMs: $pingMs, jitterMs: $jitterMs, packetLossPercent: $packetLossPercent, testedAt: $testedAt, serverName: $serverName)';
+    return 'SpeedResultModel(downloadMbps: $downloadMbps, uploadMbps: $uploadMbps, pingMs: $pingMs, jitterMs: $jitterMs, packetLossPercent: $packetLossPercent, testedAt: $testedAt, serverName: $serverName, networkInfo: $networkInfo)';
   }
 
   @override
@@ -246,7 +281,9 @@ class _$SpeedResultModelImpl implements _SpeedResultModel {
             (identical(other.testedAt, testedAt) ||
                 other.testedAt == testedAt) &&
             (identical(other.serverName, serverName) ||
-                other.serverName == serverName));
+                other.serverName == serverName) &&
+            (identical(other.networkInfo, networkInfo) ||
+                other.networkInfo == networkInfo));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -260,6 +297,7 @@ class _$SpeedResultModelImpl implements _SpeedResultModel {
     packetLossPercent,
     testedAt,
     serverName,
+    networkInfo,
   );
 
   /// Create a copy of SpeedResultModel
@@ -288,6 +326,7 @@ abstract class _SpeedResultModel implements SpeedResultModel {
     required final double packetLossPercent,
     required final DateTime testedAt,
     final String? serverName,
+    final NetworkInfoModel? networkInfo,
   }) = _$SpeedResultModelImpl;
 
   factory _SpeedResultModel.fromJson(Map<String, dynamic> json) =
@@ -307,6 +346,8 @@ abstract class _SpeedResultModel implements SpeedResultModel {
   DateTime get testedAt;
   @override
   String? get serverName;
+  @override
+  NetworkInfoModel? get networkInfo;
 
   /// Create a copy of SpeedResultModel
   /// with the given fields replaced by the non-null parameter values.
