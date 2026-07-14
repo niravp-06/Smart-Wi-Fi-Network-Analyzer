@@ -279,19 +279,17 @@ class _SpeedtestScreenState extends ConsumerState<SpeedtestScreen> with SingleTi
       width: double.infinity,
       height: 54,
       child: ElevatedButton(
-        onPressed: isTesting ? null : () => viewModel.startTest(),
+        onPressed: isTesting ? () => viewModel.cancelTest() : () => viewModel.startTest(),
         style: ElevatedButton.styleFrom(
-          backgroundColor: theme.colorScheme.primary,
-          foregroundColor: theme.scaffoldBackgroundColor,
-          disabledBackgroundColor: theme.colorScheme.surfaceContainerHighest,
-          disabledForegroundColor: theme.colorScheme.onSurfaceVariant,
+          backgroundColor: isTesting ? theme.colorScheme.error : theme.colorScheme.primary,
+          foregroundColor: isTesting ? theme.colorScheme.onError : theme.scaffoldBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          elevation: isTesting ? 0 : 4,
+          elevation: 4,
         ),
         child: Text(
-          isTesting ? 'Testing...' : 'Start Speed Test',
+          isTesting ? 'Cancel Test' : 'Start Speed Test',
           style: GoogleFonts.rajdhani(
             fontSize: 20,
             fontWeight: FontWeight.bold,

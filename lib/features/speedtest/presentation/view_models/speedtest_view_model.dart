@@ -33,6 +33,7 @@ class SpeedtestState with _$SpeedtestState {
 @riverpod
 class SpeedtestViewModel extends _$SpeedtestViewModel {
   final _speedTest = FlutterInternetSpeedTest();
+  bool _isCancelled = false;
 
   @override
   SpeedtestState build() {
@@ -40,11 +41,14 @@ class SpeedtestViewModel extends _$SpeedtestViewModel {
   }
 
   Future<void> startTest() async {
+    _isCancelled = false;
     state = SpeedtestState(phase: SpeedTestPhase.testingPing);
 
     try {
       // Phase 1 - testingPing
       final pingData = await _testPingAndJitter();
+      if (_isCancelled) return;
+      
       state = state.copyWith(
         ping: pingData['ping'] ?? 0,
         jitter: pingData['jitter'] ?? 0,
@@ -54,11 +58,19 @@ class SpeedtestViewModel extends _$SpeedtestViewModel {
       // Phase 2 & 3 - testingDownload and testingUpload
       await _startSpeedTestPro();
     } catch (e) {
-      state = state.copyWith(
-        phase: SpeedTestPhase.error,
-        error: 'Failed to complete speed test: $e',
-      );
+      if (!_isCancelled) {
+        state = state.copyWith(
+          phase: SpeedTestPhase.error,
+          error: 'Failed to complete speed test: $e',
+        );
+      }
     }
+  }
+
+  void cancelTest() {
+    _isCancelled = true;
+    _speedTest.cancelTest();
+    state = SpeedtestState(phase: SpeedTestPhase.idle);
   }
 
   Future<Map<String, int>> _testPingAndJitter() async {
@@ -66,6 +78,8 @@ class SpeedtestViewModel extends _$SpeedtestViewModel {
     final url = Uri.parse('https://www.google.com');
 
     for (int i = 0; i < 5; i++) {
+      if (_isCancelled) return {'ping': 0, 'jitter': 0};
+      
       final stopwatch = Stopwatch()..start();
       try {
         await http.get(url).timeout(const Duration(seconds: 2));
