@@ -356,9 +356,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                           children: [
                             _buildInfoColumn(theme, Icons.speed, 'Band', networkInfo.band),
                             Container(width: 1, height: 30, color: theme.colorScheme.onSurface.withOpacity(0.1)),
-                            _buildInfoColumn(theme, Icons.settings_ethernet, 'Standard', networkInfo.wifiVersion.split(' ').first),
+                            _buildInfoColumn(theme, Icons.settings_ethernet, 'Standard', networkInfo.wifiVersion),
                             Container(width: 1, height: 30, color: theme.colorScheme.onSurface.withOpacity(0.1)),
-                            _buildInfoColumn(theme, Icons.router, 'IP', networkInfo.ipVersion ?? 'IPv4'),
+                            _buildInfoColumn(theme, Icons.router, 'IP Version', networkInfo.ipVersion ?? 'IPv4'),
                           ],
                         ),
                       ),
